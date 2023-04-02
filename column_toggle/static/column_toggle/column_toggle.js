@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
   window.createColumnToggle = createColumnToggle;
-
   function createColumnToggle(defaultSelectedColumns) {
     const table = document.querySelector(".results");
     if (!table) return;
@@ -37,10 +36,10 @@ document.addEventListener("DOMContentLoaded", function () {
         shouldShowAllColumns || defaultSelectedColumns.includes(column.field);
 
       // Set the initial state of the column
-      toggleColumn(column.index, checkbox.checked);
+      toggleColumn(column, checkbox.checked);
 
       checkbox.addEventListener("change", () => {
-        toggleColumn(column.index, checkbox.checked);
+        toggleColumn(column, checkbox.checked);
       });
       const label = document.createElement("label");
       label.htmlFor = `column-toggle-${column.index}`;
@@ -56,15 +55,32 @@ document.addEventListener("DOMContentLoaded", function () {
       actionsContainer.nextElementSibling
     );
   }
-
-  function toggleColumn(columnIndex, isVisible) {
+  function toggleColumn(column, isVisible) {
     const table = document.querySelector(".results");
     if (!table) return;
 
     table
-      .querySelectorAll(`tr > :nth-child(${columnIndex + 1})`)
+      .querySelectorAll(`tr > :nth-child(${column.index + 1})`)
       .forEach((cell) => {
         cell.style.display = isVisible ? "" : "none";
       });
+
+    // Update local storage with the current state
+    const storedSelectedColumns = JSON.parse(
+      localStorage.getItem("selectedColumns") || "[]"
+    );
+
+    if (isVisible && !storedSelectedColumns.includes(column.field)) {
+      storedSelectedColumns.push(column.field);
+    } else if (!isVisible) {
+      const index = storedSelectedColumns.indexOf(column.field);
+      if (index > -1) {
+        storedSelectedColumns.splice(index, 1);
+      }
+    }
+    localStorage.setItem(
+      "selectedColumns",
+      JSON.stringify(storedSelectedColumns)
+    );
   }
 });

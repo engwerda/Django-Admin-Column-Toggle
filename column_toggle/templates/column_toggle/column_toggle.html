@@ -1,9 +1,20 @@
 <script>
   window.defaultSelectedColumns = {{ default_selected_columns|default:"[]"|safe }};
 
+  /* document.addEventListener("DOMContentLoaded", function () { */
+  /*   if (window.defaultSelectedColumns) { */
+  /*     createColumnToggle(window.defaultSelectedColumns); */
+  /*   } */
+  /* }); */
+
   document.addEventListener("DOMContentLoaded", function () {
-    if (window.defaultSelectedColumns) {
-      createColumnToggle(window.defaultSelectedColumns);
-    }
+    const storedSelectedColumns = JSON.parse(
+      localStorage.getItem("selectedColumns") || "[]"
+    );
+    createColumnToggle(
+      storedSelectedColumns.length > 0
+        ? storedSelectedColumns
+        : window.defaultSelectedColumns
+    );
   });
 </script>
