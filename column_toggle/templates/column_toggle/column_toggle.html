@@ -1,20 +1,22 @@
 <script>
   window.defaultSelectedColumns = {{ default_selected_columns|default:"[]"|safe }};
 
-  /* document.addEventListener("DOMContentLoaded", function () { */
-  /*   if (window.defaultSelectedColumns) { */
-  /*     createColumnToggle(window.defaultSelectedColumns); */
-  /*   } */
-  /* }); */
-
   document.addEventListener("DOMContentLoaded", function () {
+    const bodyClassList = document.body.classList;
+    let modelIdentifier = Array.from(bodyClassList).find((cls) =>
+      cls.startsWith("model-")
+    );
+    modelIdentifier = modelIdentifier.replace("model-", "");
+    storageKey = `${modelIdentifier}SelectedColumns`;
+
     const storedSelectedColumns = JSON.parse(
-      localStorage.getItem("selectedColumns") || "[]"
+      localStorage.getItem(storageKey) || "[]"
     );
     createColumnToggle(
       storedSelectedColumns.length > 0
         ? storedSelectedColumns
-        : window.defaultSelectedColumns
+        : window.defaultSelectedColumns,
+      storageKey
     );
   });
 </script>

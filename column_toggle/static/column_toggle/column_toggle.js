@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   window.createColumnToggle = createColumnToggle;
-  function createColumnToggle(defaultSelectedColumns) {
+  function createColumnToggle(defaultSelectedColumns, storageKey) {
     const table = document.querySelector(".results");
     if (!table) return;
 
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update local storage with the current state
     const storedSelectedColumns = JSON.parse(
-      localStorage.getItem("selectedColumns") || "[]"
+      localStorage.getItem(storageKey) || "[]"
     );
 
     if (isVisible && !storedSelectedColumns.includes(column.field)) {
@@ -78,9 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
         storedSelectedColumns.splice(index, 1);
       }
     }
-    localStorage.setItem(
-      "selectedColumns",
-      JSON.stringify(storedSelectedColumns)
-    );
+    localStorage.setItem(storageKey, JSON.stringify(storedSelectedColumns));
   }
 });
