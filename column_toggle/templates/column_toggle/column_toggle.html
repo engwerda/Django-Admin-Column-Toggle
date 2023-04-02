@@ -1,3 +1,9 @@
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'column_toggle/column_toggle.css' %}">
-<script src="{% static 'column_toggle/column_toggle.js' %}"></script>
+<script>
+  window.defaultSelectedColumns = {{ default_selected_columns|default:"[]"|safe }};
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (window.defaultSelectedColumns) {
+      createColumnToggle(window.defaultSelectedColumns);
+    }
+  });
+</script>
