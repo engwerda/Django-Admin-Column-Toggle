@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "django-admin-column-toggle"
+version = "0.1.0"
+description = "A reusable Django package to add column toggle functionality in the Django admin interface."
+authors = ["Simon Engwerda <simon@engwerda.net>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/engwerda/Django-Admin-Column-Toggle"
+repository = "https://github.com/engwerda/Django-Admin-Column-Toggle"
+keywords = ["django"]
+packages = [{ include = "column_toggle" }]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = ">=3.2,<5.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.2"
+django-pytest = "^0.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,13 @@
+.column-toggle-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+    margin-top: 16px;
+}
+.column-toggle-container input[type="checkbox"] {
+    margin-right: 4px;
+}
+.column-toggle-container label {
+    cursor: pointer;
+}
