@@ -12,8 +12,8 @@ class ColumnToggleModelAdmin(admin.ModelAdmin):
 
     def get_column_toggle_html(self, request):
         context = {
-            "default_selected_columns": self.default_selected_columns,
-            "list_display": self.list_display,
+            "default_selected_columns": list(self.default_selected_columns),
+            "list_display": list(self.list_display),
         }
         return mark_safe(
             render_to_string(
