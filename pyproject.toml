@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-admin-column-toggle"
-version = "0.3.0"
+version = "0.4.0"
 description = "A reusable Django package to add column toggle functionality in the Django admin interface."
 authors = ["Simon Engwerda <simon@engwerda.net>"]
 license = "MIT"
