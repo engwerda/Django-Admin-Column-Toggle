@@ -7,15 +7,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const headerRow = table.querySelector("thead tr");
     if (!headerRow) return;
 
+    const actionToggleExists = !!document.getElementById("action-toggle");
     const columns = Array.from(headerRow.cells)
-      .slice(1)
+      .slice(actionToggleExists ? 1 : 0) // Use 1 if action-toggle exists, otherwise use 0
       .map((cell, index) => {
         const fieldClass = Array.from(cell.classList).find((cls) =>
           cls.startsWith("column-")
         );
         const field = fieldClass ? fieldClass.replace("column-", "") : "";
         return {
-          index: index + 1,
+          index: index + (actionToggleExists ? 1 : 0), // Adjust index based on the existence of action-toggle
           text: cell.textContent.trim(),
           field: field,
         };
@@ -30,12 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.id = `column-toggle-${column.index}`;
-
-      // Set the checked state based on defaultSelectedColumns
       checkbox.checked =
         shouldShowAllColumns || defaultSelectedColumns.includes(column.field);
-
-      // Set the initial state of the column
       toggleColumn(column, checkbox.checked);
 
       checkbox.addEventListener("change", () => {
@@ -50,11 +47,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const actionsContainer = document.querySelector("div.actions");
-    actionsContainer.parentNode.insertBefore(
-      container,
-      actionsContainer.nextElementSibling
-    );
+    if (actionsContainer) {
+      actionsContainer.parentNode.insertBefore(
+        container,
+        actionsContainer.nextElementSibling
+      );
+    } else {
+      const tableContainer = document.querySelector(".results");
+      if (tableContainer) {
+        tableContainer.parentNode.insertBefore(container, tableContainer);
+      }
+    }
   }
+
   function toggleColumn(column, isVisible) {
     const table = document.querySelector(".results");
     if (!table) return;
@@ -65,11 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
         cell.style.display = isVisible ? "" : "none";
       });
 
-    // Update local storage with the current state
     const storedSelectedColumns = JSON.parse(
       localStorage.getItem(storageKey) || "[]"
     );
-
     if (isVisible && !storedSelectedColumns.includes(column.field)) {
       storedSelectedColumns.push(column.field);
     } else if (!isVisible) {
