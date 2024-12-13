@@ -21,8 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
           field: field,
         };
       });
+
+    // Create the container for the checkboxes
     const container = document.createElement("div");
     container.classList.add("column-toggle-container");
+
+    // Initially hide the checkboxes container
+    container.style.display = "none";
 
     const shouldShowAllColumns =
       !defaultSelectedColumns || defaultSelectedColumns.length === 0;
@@ -45,6 +50,15 @@ document.addEventListener("DOMContentLoaded", function () {
       container.appendChild(checkbox);
       container.appendChild(label);
     });
+
+    // Find the toggle link in the HTML
+    const toggleLink = document.getElementById("toggle-columns-link");
+    if (toggleLink) {
+      toggleLink.addEventListener("click", (event) => {
+        event.preventDefault();
+        container.style.display = container.style.display === "none" ? "flex" : "none";
+      });
+    }
 
     const actionsContainer = document.querySelector("div.actions");
     if (actionsContainer) {
@@ -83,4 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     localStorage.setItem(storageKey, JSON.stringify(storedSelectedColumns));
   }
+
+  // Call createColumnToggle with default parameters for testing
+  createColumnToggle([], 'column-toggle-storage');
 });

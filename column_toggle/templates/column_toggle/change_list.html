@@ -1,6 +1,12 @@
 {% extends "admin/change_list.html" %}
+{% load i18n %}
 
 {% block extrahead %}
   {{ block.super }}
   {{ column_toggle_html }}
 {% endblock %}
+
+{% block object-tools-items %}
+<li><a href="#" id="toggle-columns-link">{% translate 'Columns' %}</a></li>
+{{ block.super }}
+{% endblock object-tools-items %}
