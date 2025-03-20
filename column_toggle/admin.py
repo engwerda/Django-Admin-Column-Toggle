@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 
 
 class ColumnToggleModelAdmin(admin.ModelAdmin):
-    default_selected_columns = None
+    default_selected_columns = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -2,12 +2,33 @@
   window.defaultSelectedColumns = {{ default_selected_columns|default:"[]"|safe }};
 
   document.addEventListener("DOMContentLoaded", function () {
+    // Try multiple methods to get the model identifier
+    let modelIdentifier;
+
+    // Check body classes for model- prefix (standard Django admin)
     const bodyClassList = document.body.classList;
-    let modelIdentifier = Array.from(bodyClassList).find((cls) =>
+    const modelClass = Array.from(bodyClassList).find((cls) =>
       cls.startsWith("model-")
     );
-    modelIdentifier = modelIdentifier.replace("model-", "");
-    storageKey = `${modelIdentifier}SelectedColumns`;
+
+    if (modelClass) {
+      modelIdentifier = modelClass.replace("model-", "");
+    }
+
+    // Extract from URL for Grappelli or other custom admin
+    if (!modelIdentifier) {
+      const urlParts = window.location.pathname.split('/').filter(Boolean);
+      if (urlParts.length >= 3 && urlParts[0] === 'admin') {
+        modelIdentifier = urlParts[2]; // Assuming URL pattern /admin/app/model/
+      } else {
+        // Use the entire URL path as a fallback
+        // This ensures each page has its own unique settings
+        modelIdentifier = window.location.pathname.replace(/\//g, '_');
+        console.warn('Could not determine model identifier, using URL path instead');
+      }
+    }
+
+    const storageKey = `${modelIdentifier}SelectedColumns`;
 
     const storedSelectedColumns = JSON.parse(
       localStorage.getItem(storageKey) || "[]"

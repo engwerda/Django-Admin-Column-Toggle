@@ -52,6 +52,10 @@ Django Admin Column Toggle is a reusable Django package that adds column toggle 
 
 3. That's it! Now you should have column toggle functionality in the Django admin list view for the specified model.
 
+## Running Tests
+
+This project uses pytest, you can run the tests with `poetry run pytest`.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

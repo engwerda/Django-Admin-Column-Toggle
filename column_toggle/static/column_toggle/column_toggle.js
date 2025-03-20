@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   window.createColumnToggle = createColumnToggle;
   function createColumnToggle(defaultSelectedColumns, storageKey) {
-    const table = document.querySelector(".results");
+    const table = document.querySelector(".results, .grp-table");
     if (!table) return;
 
     const headerRow = table.querySelector("thead tr");
@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", function () {
       checkbox.id = `column-toggle-${column.index}`;
       checkbox.checked =
         shouldShowAllColumns || defaultSelectedColumns.includes(column.field);
-      toggleColumn(column, checkbox.checked);
+      toggleColumn(column, checkbox.checked, storageKey);
 
       checkbox.addEventListener("change", () => {
-        toggleColumn(column, checkbox.checked);
+        toggleColumn(column, checkbox.checked, storageKey);
       });
       const label = document.createElement("label");
       label.htmlFor = `column-toggle-${column.index}`;
@@ -46,22 +46,22 @@ document.addEventListener("DOMContentLoaded", function () {
       container.appendChild(label);
     });
 
-    const actionsContainer = document.querySelector("div.actions");
+    const actionsContainer = document.querySelector("div.actions, .grp-actions");
     if (actionsContainer) {
       actionsContainer.parentNode.insertBefore(
         container,
         actionsContainer.nextElementSibling
       );
     } else {
-      const tableContainer = document.querySelector(".results");
+      const tableContainer = document.querySelector(".results, .grp-table");
       if (tableContainer) {
         tableContainer.parentNode.insertBefore(container, tableContainer);
       }
     }
   }
 
-  function toggleColumn(column, isVisible) {
-    const table = document.querySelector(".results");
+  function toggleColumn(column, isVisible, storageKey) {
+    const table = document.querySelector(".results, .grp-table");
     if (!table) return;
 
     table
